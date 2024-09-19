@@ -4,6 +4,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<VoterContext>(opt => opt.UseInMemoryDatabase("VoterList"));
 builder.Services.AddDbContext<CandidateContext>(opt => opt.UseInMemoryDatabase("CandidateList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddCors(options => options.AddPolicy("AllowAll", builder => builder
+    .SetIsOriginAllowed(isOriginAllowed: _ => true)
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials()));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
@@ -30,4 +35,5 @@ if (app.Environment.IsDevelopment())
 VoterRouteMapper.Map(app);
 CandidateRouteMapper.Map(app);
 
+app.UseCors("AllowAll");
 app.Run();
