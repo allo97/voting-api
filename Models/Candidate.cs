@@ -1,5 +1,5 @@
 public class Candidate : Person
 {
    
-    public List<int>? Votes { get; set; }
+    public int Votes { get; set; }
 }
